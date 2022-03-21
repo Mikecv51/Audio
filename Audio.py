@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 #Automatically Removed the Audio between 2 Dog Clicks
 import matplotlib.pyplot as plt
 import numpy as np
@@ -5,7 +6,7 @@ import wave
 import sys
 
 # Extract Raw Audio from Wav File#
-spf = wave.open(".APM_Adobe_Going Home_v3.wav.icloud", "r")
+spf = wave.open("Intro Stay Lets Talk.wav", "r")
 signal = spf.readframes(-1)
 signal = np.fromstring(signal, "Int16")
 
@@ -15,6 +16,8 @@ plt.title("Original Signal")
 plt.ylim(-50000,50000)
 plt.plot(signal)
 plt.show
+
+
 
 shelf = 25000
 preClickEcho = 500
@@ -49,3 +52,14 @@ plt.xlim(0, 300000)
 plt.ylim(-50000, 50000)
 
 plt.show()
+
+print("exporting to trimmed.wav")
+outputFile = wave.open("Intro Stay Lets Talk.wav", "wb")
+outputFile.setnchannels(spf.getnchannels())
+outputFile.setframerate(spf.getframerate())
+outputFile.setsampwidth(spf.getsampwidth())
+
+#print(type(trimmedSignal))
+outputFile.writeframes(np.array(trimmedSignal).tobytes())
+outputFile.close()
+print("done")
